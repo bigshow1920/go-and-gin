@@ -13,6 +13,10 @@ func NewClient(ctx context.Context, config config.Config) (*handler.PlayerHandle
 	if err != nil {
 		return nil, err
 	}
+	err = conn.Ping()
+	if err != nil {
+		return nil, err
+	}
 	playerService := service.NewPLayerService(conn)
 	playerHandler := handler.NewPlayerHandler(playerService)
 	return playerHandler, nil

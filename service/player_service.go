@@ -90,7 +90,7 @@ func (p *playerService) GetAllPlayers() ([]models.Player, error) {
 	rows, err := p.DB.Query(sqlStatement)
 
 	if err != nil {
-		return Players, nil
+		return Players, err
 	}
 
 	// close the statement
@@ -101,10 +101,10 @@ func (p *playerService) GetAllPlayers() ([]models.Player, error) {
 		var Player models.Player
 
 		// unmarshal the row object to Player
-		err = rows.Scan(&Player.ID, &Player.Name, &Player.Age, &Player.Location)
+		err = rows.Scan(&Player.ID, &Player.Name, &Player.Location, &Player.Age)
 
 		if err != nil {
-			log.Fatalf("Unable to scan the row. %v", err)
+			return Players, err
 		}
 
 		// append the Player in the Players slice
